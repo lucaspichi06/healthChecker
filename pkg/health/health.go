@@ -22,6 +22,7 @@ func GetInstance() Health {
 	return h
 }
 
+// Health interface for checking the status of the different clients
 type Health interface {
 	Check()
 	Monitor(types.Monitor) error
@@ -31,6 +32,7 @@ type service struct {
 	monitors map[string]types.Monitor
 }
 
+// Check return the status of the registered clients
 func (s *service) Check() {
 	for _, v := range s.monitors {
 		v := v
@@ -47,6 +49,7 @@ func (s *service) Check() {
 	}
 }
 
+// Monitor registers a new monitor into the health service
 func (s *service) Monitor(monitor types.Monitor) error {
 	if _, ok := s.monitors[monitor.Name]; ok {
 		return errors.New("monitor already exists")
